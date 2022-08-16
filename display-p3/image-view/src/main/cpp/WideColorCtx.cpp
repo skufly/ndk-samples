@@ -164,6 +164,8 @@ bool ImageViewEngine::CreateWideColorCtx(WIDECOLOR_MODE mode) {
   eglQuerySurface(display_, surface_, EGL_WIDTH, &renderTargetWidth_);
   eglQuerySurface(display_, surface_, EGL_HEIGHT, &renderTargetHeight_);
 
+  LOGI("====Surface for mode (%d) is created success", mode);
+
   return true;
 }
 
@@ -205,15 +207,15 @@ bool ImageViewEngine::CreateWideColorCtx(void) {
 
     // Default is P3 wide color gamut modes
     WIDECOLOR_MODE modes[] = {
-            P3_R8G8B8A8_REV,
             P3_R10G10B10A2_REV,
+            P3_R8G8B8A8_REV,
             P3_FP16,
             SRGBA_R8G8B8A8_REV,
     };
 
     if (CheckRequiredEGLExt(display_, passthruExt)) {
-        modes[0] = P3_PASSTHROUGH_R8G8B8A8_REV;
-        modes[1] = P3_PASSTHROUGH_R10G10B10A2_REV;
+        modes[0] = P3_PASSTHROUGH_R10G10B10A2_REV;
+        modes[1] = P3_PASSTHROUGH_R8G8B8A8_REV;
         modes[2] = P3_PASSTHROUGH_FP16;
     } else if (!CheckRequiredEGLExt(display_, p3Exts)) {
         LOGW("====Warning: Display P3 is not supported,"
